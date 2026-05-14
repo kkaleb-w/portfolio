@@ -4,6 +4,7 @@ body {
   color: white;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 * {
@@ -32,7 +33,16 @@ img {
   margin-right: 40px;
 }
 
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
 
+.nav-links a {
+  color: rgba(255,255,255,0.82);
+  text-decoration: none;
+  font-size: 0.92rem;
+}
 
 .toggle {
   margin-left: auto;
@@ -44,12 +54,13 @@ img {
 
 .container {
   display: grid;
-  grid-template-columns: 58% 42%;
+  grid-template-columns: 48% 52%;
   height: 100vh;
 }
 
 .left-panel {
   position: sticky;
+  background: #000;
   top: 0;
   height: 100vh;
   overflow: hidden;
@@ -60,6 +71,7 @@ img {
   height: 100%;
   object-fit: cover;
   filter: brightness(0.78);
+  transition: opacity 0.6s ease;
 }
 
 .arrow {
@@ -98,7 +110,15 @@ img {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.35);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.dots span.active {
+  width: 26px;
+  border-radius: 999px;
+  background: white;
 }
 
 .right-panel {
@@ -142,6 +162,22 @@ img {
   line-height: 1.8;
 }
 
+.socials {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.social-card {
+  background: #141414;
+  border-radius: 18px;
+  padding: 22px;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .social-card.light {
   background: white;
@@ -164,6 +200,7 @@ img {
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 260px;
   gap: 16px;
 }
 
@@ -171,19 +208,20 @@ img {
   position: relative;
   border-radius: 22px;
   overflow: hidden;
-  min-height: 320px;
 }
 
 .gallery-item.big {
-  min-height: 420px;
+  grid-column: span 2;
+  grid-row: span 1;
 }
 
 .gallery-item.tall {
-  min-height: 500px;
+  grid-row: span 2;
 }
 
 .gallery-item.small {
-  min-height: 240px;
+  grid-column: span 1;
+  grid-row: span 1;
 }
 
 .gallery-item img {
@@ -235,6 +273,10 @@ img {
 
   .nav-links {
     display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
   }
 
   .overlay h3 {

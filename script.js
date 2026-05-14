@@ -1,28 +1,86 @@
-const cards = document.querySelectorAll('.gallery-card');
+document.addEventListener('DOMContentLoaded', () => {
 
-cards.forEach(card => {
+  const heroImage = document.querySelector('.hero-image');
+  const dotsContainer = document.querySelector('.dots');
+  const leftArrow = document.querySelector('.arrow.left');
+  const rightArrow = document.querySelector('.arrow.right');
+  const toggle = document.querySelector('.toggle');
+  const navLinks = document.querySelector('.nav-links');
 
-  card.addEventListener('mousemove', e => {
+  const heroImages = [
+    'photos/WrightK_Panning.JPG',
+    'photos/WrightK_Manual1.JPG',
+    'photos/WrightK_SubjectMotion.JPG',
+    'photos/WrightK_lightingPainting.jpg',
+    'photos/WrightK_Triptyks.jpg'
+  ];
 
-    const rect = card.getBoundingClientRect();
+  let currentIndex = 0;
+  let autoSlide;
 
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  function renderDots() {
 
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+    dotsContainer.innerHTML = '';
 
-    const rotateX = (y - centerY) / 30;
-    const rotateY = (centerX - x) / 30;
+    heroImages.forEach((_, index) => {
+      const dot = document.createElement('span');
+      if (index === currentIndex) {
+        dot.classList.add('active');
+      }
+      dot.addEventListener('click', () => {
+        currentIndex = index;
+        updateImage();
+        renderDots();
+      });
+      dotsContainer.appendChild(dot);
+    });
+  }
 
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  function updateImage() {
+    heroImage.src = heroImages[currentIndex];
+  }
 
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % heroImages.length;
+    updateImage();
+    renderDots();
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + heroImages.length) % heroImages.length;
+    updateImage();
+    renderDots();
+  }
+
+  function startAutoSlide() {
+    autoSlide = setInterval(nextSlide, 3000);
+  }
+
+  function stopAutoSlide() {
+    clearInterval(autoSlide);
+  }
+
+  // Initial setup
+  updateImage();
+  renderDots();
+  startAutoSlide();
+
+  // Event listeners
+  leftArrow.addEventListener('click', () => {
+    prevSlide();
+    stopAutoSlide();
+    startAutoSlide();
   });
 
-  card.addEventListener('mouseleave', () => {
+  rightArrow.addEventListener('click', () => {
+    nextSlide();
+    stopAutoSlide();
+    startAutoSlide();
+  });
 
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-
+  toggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
   });
 
 });
+  
